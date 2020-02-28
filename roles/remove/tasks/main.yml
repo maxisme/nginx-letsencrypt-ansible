@@ -8,6 +8,9 @@
     path=/etc/nginx/
     state=absent
 
+- name: uninstall letsencrypt
+   apt: name=letsencrypt state=absent
+
 - name: delete letsencrypt directory
   file: >
     path=/var/www/letsencrypt

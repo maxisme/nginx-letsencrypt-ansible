@@ -1,12 +1,14 @@
 Heavily influenced by:
+    
     - https://gist.github.com/mattiaslundberg/ba214a35060d3c8603e9b1ec8627d349
+    
     - https://gist.github.com/plentz/6737338 (I will try keep up to date with the `nginx.j2` but please make a PR if you notice a change)
 
 
 1. create a new hosts section in your /hosts:
     ```
     [nginxletsencrypt]
-    example.com ansible_host=remoteip letsencrypt_email=me@example.com domain_name=example.com
+    example.com letsencrypt_email=me@example.com domain_name=example.com
 
     [remove-nginxletsencrypt]
     ```

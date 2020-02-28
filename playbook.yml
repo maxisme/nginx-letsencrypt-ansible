@@ -1,0 +1,9 @@
+---
+
+- hosts: nginxletsencrypt
+    roles:
+    - add
+
+- hosts: remove-nginxletsencrypt
+    roles:
+    - remove

@@ -1,4 +1,12 @@
 ---
+    
+- name: check for nginx config
+    stat: path=/etc/nginx/sites-enabled/{{ domain_name }}
+    register: config
+
+- name: fail if already run on host
+    fail: msg="It looks like the host has already had this playbook run against it"
+    when: config.stat.exists
 
 - name: upgrade system
     apt: upgrade=dist update_cache=yes

@@ -1,6 +1,6 @@
 # How to run?
 
-1. Create a new hosts section in a `/hosts` file in the format:
+1. Create a new `hosts` file at the root of your project:
     ```
     [nginxletsencrypt]
     example.com letsencrypt_email=me@example.com domain_name=example.com

@@ -6,6 +6,9 @@
 - name: install NGINX
   apt: name=nginx state=latest
 
+- name: create NGINX directory
+  file: name=/etc/nginx/sites-enabled state=directory
+
 - name: install letsencrypt
   apt: name=letsencrypt state=latest
 
@@ -19,15 +22,15 @@
   template:
     src: templates/conf.j2
     dest: /etc/nginx/nginx.conf
-    notify:
-      - restart nginx
+  notify:
+    - restart nginx
 
 - name: install tmp NGINX config for authenticating domain with letsencrypt
   template:
     src: templates/tmp-nginx.j2
     dest: /etc/nginx/sites-enabled/{{ domain_name }}
-    notify:
-      - reload nginx
+  notify:
+    - reload nginx
 
 - name: create letsencrypt certificate
   shell: letsencrypt certonly -n --webroot -w /var/www/letsencrypt -m "{{ letsencrypt_email }}" --agree-tos -d "{{ domain_name }}"

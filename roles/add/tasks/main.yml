@@ -1,54 +1,46 @@
 ---
-    
-- name: check for nginx config
-    stat: path=/etc/nginx/sites-enabled/{{ domain_name }}
-    register: config
-
-- name: fail if already run on host
-    fail: msg="It looks like the host has already had this playbook run against it"
-    when: config.stat.exists
 
 - name: upgrade system
-    apt: upgrade=dist update_cache=yes
+  apt: upgrade=dist update_cache=yes
 
 - name: install NGINX
-    apt: name=nginx state=latest
+  apt: name=nginx state=latest
 
 - name: install letsencrypt
-    apt: name=letsencrypt state=latest
+  apt: name=letsencrypt state=latest
 
 - name: create letsencrypt directory
-    file: name=/var/www/letsencrypt state=directory
+  file: name=/var/www/letsencrypt state=directory
 
 - name: remove default NGINX config
-    file: name=/etc/nginx/sites-enabled/default state=absent
+  file: name=/etc/nginx/sites-enabled/default state=absent
 
 - name: install system wide NGINX config
-    template:
+  template:
     src: templates/conf.j2
     dest: /etc/nginx/nginx.conf
     notify:
       - restart nginx
 
 - name: install tmp NGINX config for authenticating domain with letsencrypt
-    template:
+  template:
     src: templates/tmp-nginx.j2
     dest: /etc/nginx/sites-enabled/{{ domain_name }}
     notify:
       - reload nginx
 
 - name: create letsencrypt certificate
-    shell: letsencrypt certonly -n --webroot -w /var/www/letsencrypt -m {{ letsencrypt_email }} --agree-tos -d {{ domain_name }}
-    args:
+  shell: letsencrypt certonly -n --webroot -w /var/www/letsencrypt -m "{{ letsencrypt_email }}" --agree-tos -d "{{ domain_name }}"
+  args:
     creates: /etc/letsencrypt/live/{{ domain_name }}
 
 - name: generate dhparams
-    shell: openssl dhparam -out /etc/nginx/dhparams.pem 2048
-    args:
+  shell: openssl dhparam -out /etc/nginx/dhparams.pem 2048
+  args:
     creates: /etc/nginx/dhparams.pem
 
-- name: setup final NGINX config
-    template
+- name: setup final NGINX config template
+  template:
     src: templates/{% if template is not defined %}nginx.j2{% else %}{{ template }}{% end %}
     dest: /etc/nginx/sites-enabled/{{ domain_name }}
 
@@ -56,7 +48,7 @@
   meta: flush_handlers
 
 - name: add letsencrypt cronjob
-    cron:
+  cron:
     name: letsencrypt_renewal
     special_time: weekly
     job: letsencrypt --renew certonly -n --webroot -w /var/www/letsencrypt -m {{ letsencrypt_email }} --agree-tos -d {{ domain_name }} && service nginx reload

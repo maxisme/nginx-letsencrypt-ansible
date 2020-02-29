@@ -11,7 +11,7 @@
 2. Customise the `roles/add/nginx.j2` for your server (if needed):
     - you can also create a new template for different hosts by creating a new template (say `roles/add/nginx2.j2`) and adding a new variable to the host in the hosts file like: `template=nginx2.j2` 
 
-3. Run `$ ansible-playbook playbook.yml`
+3. Run `$ ansible-playbook site.yml`
 
 ___
 

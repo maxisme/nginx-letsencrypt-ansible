@@ -1,7 +1,7 @@
 ---
 
 - name: uninstall NGINX
-   apt: name=nginx state=absent
+  apt: name=nginx state=absent
 
 - name: delete NGINX directory
   file: >
@@ -9,7 +9,7 @@
     state=absent
 
 - name: uninstall letsencrypt
-   apt: name=letsencrypt state=absent
+  apt: name=letsencrypt state=absent
 
 - name: delete letsencrypt directory
   file: >

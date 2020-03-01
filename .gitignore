@@ -1,6 +1,6 @@
 hosts
 
 roles/add/templates/*
-!roles/add/templates/conf.j2
+!roles/add/templates/nginx
 !roles/add/templates/nginx.j2
 !roles/add/templates/tmp-nginx.j2

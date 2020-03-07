@@ -18,6 +18,11 @@ server {
     ssl_trusted_certificate /etc/letsencrypt/live/{{ domain_name }}/fullchain.pem;
 
     location / {
+        proxy_cache my_zone;
+        proxy_cache_bypass  $http_cache_control;
+        add_header X-Proxy-Cache $upstream_cache_status;
+        include proxy_params;
+
         proxy_pass http://127.0.0.1:8000;
     }
 }

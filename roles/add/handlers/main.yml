@@ -2,10 +2,10 @@
 
 - name: restart nginx
   service: >
-      name=tinc
+      name=nginx
       state=restarted
 
 - name: reload nginx
   service: >
-      name=tinc
+      name=nginx
       state=reloaded

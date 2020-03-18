@@ -3,7 +3,7 @@
 1. Create a new `hosts` file at the root of your project:
     ```
     [nginxletsencrypt]
-    example.com letsencrypt_email=hello@example.com domain_name=example.com
+    example.com letsencrypt_email=hello@example.com domain_name=example.com proxy="http://10.0.0.2:3000"
 
     [remove-nginxletsencrypt]
     ```

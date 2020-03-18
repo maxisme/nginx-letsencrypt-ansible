@@ -30,7 +30,7 @@
     src: templates/tmp-nginx.j2
     dest: /etc/nginx/sites-enabled/{{ domain_name }}
   notify:
-    - reload nginx
+    - restart nginx
 
 - name: create letsencrypt certificate
   shell: letsencrypt certonly -n --webroot -w /var/www/letsencrypt -m "{{ letsencrypt_email }}" --agree-tos -d "{{ domain_name }}"
